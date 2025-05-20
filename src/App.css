@@ -1,0 +1,44 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.job__label{
+  display: flex;
+  width: 1.5em;
+  height: 1.5em;
+  border-radius: 50%;
+  border: 3px solid #7f8383;
+  background-color: rgb(255, 255, 255);
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.job__label-span{
+  width: 0.85em;
+  height: 0.85em;
+  background: none;
+  border-radius: 50%;
+}
+input[type="radio"]{
+  display: none;
+}
+
+input[type="radio"]:checked + label .job__label-span{
+  background: #7B287D;  
+}
+
+.active{
+  background: #7B287D;
+}
+.inactive{
+  background: #DEE7E7;
+}
+.activeHeader{
+  color: #7B287D;
+}
+.inactiveHeader{
+  color: #DEE7E7  ;
+}
