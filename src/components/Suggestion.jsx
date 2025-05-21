@@ -2,10 +2,20 @@ import React, { useEffect, useState } from 'react'
 import { BsCurrencyEuro } from 'react-icons/bs'
 import { CiMoneyBill } from 'react-icons/ci'
 import { useRef } from 'react'
-const Suggestion = ({ data, handleOnClick, inputValue, setInputValue, path }) => {
+const Suggestion = ({ data, handleOnClick, inputValue, setInputValue, path, comma, setComma }) => {
+    const [selectedLocation, setSelectedLocation] = useState({
+        city: '', area: ''
+    })
     useEffect(() => {
         if (inputValue.trim() === "") {
             setSelectedJob(null)
+        }
+    }, [inputValue])
+    useEffect(() => {
+        if (inputValue.trim() === "") {
+            setSelectedLocation({
+                city: '', area: ''
+            })
         }
     }, [inputValue])
     const [selectedJob, setSelectedJob] = useState(null)
@@ -16,14 +26,40 @@ const Suggestion = ({ data, handleOnClick, inputValue, setInputValue, path }) =>
 
     let details
     if (path === '/') {
+        const inputData1 = inputValue?.split(',')[0].trim()
+        const inputData2 = inputValue?.split(',')[1]?.trim()
+        let dataToDisplay;
+        if (comma && inputData1) {
+            const inputData = inputValue.split(',')[0].trim()
+            dataToDisplay = data[inputData] || []
+        } else {
+            dataToDisplay = Object.keys(data)
+            setComma(false)
+            
+            
+        }
+        const filterText = comma ? inputData2 : inputData1;
+        const filteredText = filterText ? dataToDisplay?.filter(item => item.toLocaleLowerCase().includes((comma ? inputData2 : inputData1).toLocaleLowerCase())) : dataToDisplay
+        console.log(filteredText);
+
         details = <div className='w-full h-auto flex gap-4 flex-wrap '>
-            {data.slice(0, 10)
-                .filter(item => item.toLocaleLowerCase().includes(inputValue.toLocaleLowerCase()))
-                .map((item, index) => (
-                    <p key={index} className='text-center  shadow-sm cursor-pointer px-4 py-2' onClick={handleOnClick}>
-                        {item}
-                    </p>
-                ))}
+            {filteredText?.map((item, index) => (
+                <p key={index} className='text-center  shadow-sm cursor-pointer px-4 py-2' onClick={(e) => {
+                    let updatedLocation;
+                    if (comma) {
+                        setSelectedLocation(prev => ({ ...prev, area: e.target.innerText }))
+                        updatedLocation = `${selectedLocation?.city} , ${e.target.innerText}`
+                    } else {
+                        setSelectedLocation(prev => ({ ...prev, city: e.target.innerText }))
+                        updatedLocation = `${e.target.innerText},`
+                        setComma(true)
+                    }
+
+                    handleOnClick(updatedLocation)
+                }}>
+                    {item}
+                </p>
+            ))}
         </div>
     } else {
         const filteredJobs = data.filter(item => item.title.toLocaleLowerCase().includes(inputValue.trim().toLocaleLowerCase()))
