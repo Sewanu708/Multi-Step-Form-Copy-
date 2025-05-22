@@ -6,7 +6,7 @@ const Form1_2 = ({ item, data }) => {
             <div className='w-full flex items-center justify-start gap-x-4'>
                 <label className='font-[700]' id={item.id}>{item.header}:</label>
                 <input type={item.type} htmlFor={item.id} placeholder={item.placeholder}
-                    value={data[item.id]} required className='placeholder:text-[14px] w-full border-none outline-0'
+                    defaultValue={data[item.id]}  className='placeholder:text-[14px] w-full border-none outline-0'
                 readOnly/>
             </div>
             {

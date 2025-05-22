@@ -1,14 +1,19 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 export const myContext = createContext("")
 
-export const GlobalState = ({children}) => {
+export const GlobalState = ({ children }) => {
     const [data, setData] = useState({
         location: '',
         positon: '',
         Name: '',
-        Phone: ''
+        Phone: '',
+        certifcation: ''
     })
-    return <myContext.Provider value={{data,setData} }>
+    useEffect(() => {
+        const loadData = JSON.parse(localStorage.getItem('data'))
+        setData(loadData)
+    }, [])
+    return <myContext.Provider value={{ data, setData }}>
         {children}
     </myContext.Provider>
 }

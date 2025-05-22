@@ -1,39 +1,73 @@
-import React, { useEffect, useState } from 'react'
-import Form from '../components/Form/Form'
-import { form_two } from '../components/Form/index';
-import api from '../api/api'
+import React, { Fragment, useContext, useEffect, useState } from 'react'
+import { form_two, Positions } from '../components/Form/index';
+import CommonInput from '../components/Form/CommonInput';
+import Card2 from '../components/Suggestion/Card2';
+import { useFormik } from 'formik';
+import { useNavigate } from 'react-router';
+import { myContext } from '../context';
+const validate = (values) => {
+  const errors = {};
+   if (!values.position || values.position.trim() === '') {
+    errors.position = "This field is required";
+  }
+
+  return errors;
+}
+
 const Position = () => {
-  const [data, setData] = useState([])
-  const [isLoading, setIsLoading] = useState(true)
-  useEffect(() => {
-    const fetchJobs = async () => {
-      setIsLoading(true)
-      try {
-        const response = await api.get('/jobs/paginated');
-        if (response && response.data) setData(response.data.data)
-      } catch (error) {
-        if (error.response) {
-          console.log(error.response.data);
-          console.log(error.response.status);
-          console.log(error.response.headers);
+  const { data, setData } = useContext(myContext)
+  const Navigate = useNavigate()
+  const formik = useFormik({
+    initialValues: {
+      position: data?.position || ''
+    },
+    validate,
+    onSubmit: values => {
+      setData(prev => {
+        const updated = { ...prev, position: values.position };
+        localStorage.setItem('data', JSON.stringify(updated));
+        return updated;
+      });
+      Navigate('/details')
+    },
 
-        } else {
-          console.log(`Error: ${error.message}`)
-        }
-      } finally {
-        setIsLoading(false)
-      }
+
+  })
+  const [comma, setComma] = useState(false);
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    if (value.includes(',')) {
+      setComma(true)
+    } else {
+      setComma(false)
     }
-    fetchJobs();
-  }, [])
 
-  useEffect(() => {
-    console.log(data);
-
-  }, [data])
+    formik.handleChange(e)
+  }
   return (
-    isLoading ? 'Loading...' :
-      <Form Locations={data} details={form_two} />
+    <form onSubmit={formik.handleSubmit}>
+      <CommonInput details={form_two} formik={formik} handleChange={handleInputChange} />
+      <Card2 data={Positions} formik={formik} />
+      <div className='flex mt-8 justify-between '>
+        <button
+          className=" bg-main text-white px-4 py-2 rounded-xl cursor-pointer font-Roboto  font-[600] transition-all duration-150 
+             hover:bg-button disabled:bg-gray-400 disabled:cursor-not-allowed"
+
+          type="button"
+          onClick={() => { Navigate(-1) }}
+        >
+          Prev
+        </button>
+        <button
+          className=" bg-main text-white px-4 py-2 rounded-xl cursor-pointer font-Roboto font-[600] transition-all duration-150 
+             hover:bg-button disabled:bg-gray-400 disabled:cursor-not-allowed"
+          disabled={!!formik.errors.position || !formik.values.position.trim()}
+          type="submit"
+        >
+          Next
+        </button>
+      </div>
+    </form>
   )
 }
 
