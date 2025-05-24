@@ -8,9 +8,7 @@ const Application = () => {
         <div>
             <Header/>
             <Outlet/>
-            <div>
-                <button></button>
-            </div>
+        
         </div>
     )
 }

@@ -5,9 +5,9 @@ export const GlobalState = ({ children }) => {
     const [data, setData] = useState({
         location: '',
         positon: '',
-        Name: '',
-        Phone: '',
-        certifcation: ''
+        name: '',
+        phone: '',
+        certification: ''
     })
     useEffect(() => {
         const loadData = JSON.parse(sessionStorage.getItem('data'))

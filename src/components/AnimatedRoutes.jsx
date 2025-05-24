@@ -1,5 +1,5 @@
 import React from 'react'
-import { Location, Success, Application, Position, Details } from '../Pages/index'
+import { Location, Success, Application, Position, Details, Preview } from '../Pages/index'
 import { Route, Routes, useLocation } from 'react-router'
 import { AnimatePresence } from 'framer-motion'
 function AnimatedRoutes() {
@@ -12,7 +12,7 @@ function AnimatedRoutes() {
                     <Route path='/details' element={<Details />} />
                     <Route path='/position' element={<Position />} />
                     <Route path='/success' element={<Success />} />
-
+                    <Route path='/preview' element={<Preview />} />
                 </Route>
             </Routes>
         </AnimatePresence>

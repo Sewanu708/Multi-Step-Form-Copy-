@@ -24,21 +24,21 @@ const Details = () => {
 
   const formik = useFormik({
     initialValues: {
-      name: data?.Name || '',
-      phone: data?.Phone || '',
+      name: data?.name || '',
+      phone: data?.phone || '',
       certification: data?.certification || ''
     },
     validate,
     onSubmit: values => {
       const updated = {
         ...data,
-        Name: values.name,
-        Phone: values.phone,
+        name: values.name,
+        phone: values.phone,
         certification: values.certification
       };
       setData(updated);
       sessionStorage.setItem('data', JSON.stringify(updated));
-      navigate('/success');
+      navigate('/preview');
     }
   });
 
@@ -99,7 +99,7 @@ const Details = () => {
             (optional)
           </span>
         </label>
-        <div className='w-full border border-dashed h-[250px] flex items-center justify-center mt-2'>
+        <div className='w-full cursor-pointer border border-dashed h-[250px] flex items-center justify-center mt-2' ref={fileInputLabelRef}>
           <input
             type='file'
             name='certification'
@@ -113,12 +113,12 @@ const Details = () => {
           />
           <div
             className='cursor-pointer flex flex-col font-Roboto justify-center items-center gap-y-4'
-            ref={fileInputLabelRef}
+            
           >
             <FaFile color='#7B287D' size={100} />
             <div>
-              {fileInput.length > 0 ? (
-                fileInput
+              {fileInput.length > 0 || formik.values.certification ? (
+                fileInput||formik.values.certification 
               ) : (
                 <div className='inline'>
                   <span className='font-bold underline'>Click to upload</span>
