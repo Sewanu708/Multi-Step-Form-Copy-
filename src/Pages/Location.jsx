@@ -6,7 +6,7 @@ import { useFormik } from 'formik';
 import Card1 from '../components/Suggestion/Card1';
 import { useLocation, useNavigate } from 'react-router';
 import { myContext } from '../context';
-
+import { motion } from 'framer-motion';
 const validate = (values) => {
   const errors = {};
   if (!values.location || !/^[a-zA-Z\s]+\s*,\s*[a-zA-Z\s]+$/.test(values.location)) {
@@ -27,7 +27,7 @@ const Location = () => {
     onSubmit: values => {
       setData(prev => {
         const updated = { ...prev, location: values.location };
-        localStorage.setItem('data', JSON.stringify(updated));
+        sessionStorage.setItem('data', JSON.stringify(updated));
         return updated;
       });
       Navigate('/position')
@@ -47,31 +47,33 @@ const Location = () => {
   }
 
   return (
-    <form onSubmit={formik.handleSubmit}>
-      <CommonInput details={form_one} formik={formik} handleChange={handleInputChange} />
-      <Card1 data={Locations} formik={formik} comma={comma} setComma={setComma} />
-      <div className='flex mt-8 justify-between '>
-        <button
-          className=" bg-main text-white px-4 py-2 rounded-xl cursor-pointer font-Roboto opacity-0 font-[600] transition-all duration-150 
+    <div>
+      <form onSubmit={formik.handleSubmit}>
+        <CommonInput details={form_one} formik={formik} handleChange={handleInputChange} />
+        <Card1 data={Locations} formik={formik} comma={comma} setComma={setComma} />
+        <div className='flex mt-8 justify-between '>
+          <button
+            className=" bg-main text-white px-4 py-2 rounded-xl cursor-pointer font-Roboto opacity-0 font-[600] transition-all duration-150 
              hover:bg-button disabled:bg-gray-400 disabled:cursor-not-allowed"
-          disabled={locale.pathname === '/'}
-          type="submit"
-          onClick={() => { Navigate(-1) }}
-        >
-          Prev
-        </button>
-        <button
-          className=" bg-main text-white px-4 py-2 rounded-xl cursor-pointer font-Roboto font-[600] transition-all duration-150 
+            disabled={locale.pathname === '/'}
+            type="submit"
+            onClick={() => { Navigate(-1) }}
+          >
+            Prev
+          </button>
+          <button
+            className=" bg-main text-white px-4 py-2 rounded-xl cursor-pointer font-Roboto font-[600] transition-all duration-150 
              hover:bg-button disabled:bg-gray-400 disabled:cursor-not-allowed"
-          disabled={
-            !!formik.errors.location || !formik.values.location.trim()
-          }
-          type="submit"
-        >
-          Next
-        </button>
-      </div>
-    </form>
+            disabled={
+              !!formik.errors.location || !formik.values.location.trim()
+            }
+            type="submit"
+          >
+            Next
+          </button>
+        </div>
+      </form>
+    </div>
 
   )
 }

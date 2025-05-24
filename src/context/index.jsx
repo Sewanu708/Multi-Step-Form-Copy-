@@ -10,7 +10,7 @@ export const GlobalState = ({ children }) => {
         certifcation: ''
     })
     useEffect(() => {
-        const loadData = JSON.parse(localStorage.getItem('data'))
+        const loadData = JSON.parse(sessionStorage.getItem('data'))
         setData(loadData)
     }, [])
     return <myContext.Provider value={{ data, setData }}>

@@ -37,7 +37,7 @@ const Details = () => {
         certification: values.certification
       };
       setData(updated);
-      localStorage.setItem('data', JSON.stringify(updated));
+      sessionStorage.setItem('data', JSON.stringify(updated));
       navigate('/success');
     }
   });
@@ -60,6 +60,7 @@ const Details = () => {
   }, []);
 
   return (
+
     <form onSubmit={formik.handleSubmit}>
       <Form1_2 item={form_one} data={data} />
       <Form1_2 item={form_two} data={data} />
@@ -151,6 +152,8 @@ const Details = () => {
         </button>
       </div>
     </form>
+
+
   );
 };
 

@@ -5,9 +5,10 @@ import Card2 from '../components/Suggestion/Card2';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router';
 import { myContext } from '../context';
+import { motion } from 'framer-motion';
 const validate = (values) => {
   const errors = {};
-   if (!values.position || values.position.trim() === '') {
+  if (!values.position || values.position.trim() === '') {
     errors.position = "This field is required";
   }
 
@@ -25,7 +26,7 @@ const Position = () => {
     onSubmit: values => {
       setData(prev => {
         const updated = { ...prev, position: values.position };
-        localStorage.setItem('data', JSON.stringify(updated));
+        sessionStorage.setItem('data', JSON.stringify(updated));
         return updated;
       });
       Navigate('/details')
@@ -68,6 +69,7 @@ const Position = () => {
         </button>
       </div>
     </form>
+
   )
 }
 
