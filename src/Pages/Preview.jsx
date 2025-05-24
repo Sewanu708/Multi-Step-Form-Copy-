@@ -13,10 +13,10 @@ function Preview() {
     useEffect(() => {
         setTimeout(() => { setDisplay(true) }, 2000)
     }, [])
-    const success = <Fragment><div className="m-auto h-[75vh] flex flex-col items-center justify-center px-4 text-center">
+    const success = <Fragment><div className="m-auto flex mt-4  flex-col items-center justify-center px-4 text-center">
         <Form1_2 item={form_one} data={data} />
         <Form1_2 item={form_two} data={data} />
-        {form_three.map((item, index) => <Form1_2 item={item} data={data} />)}
+        {form_three.map((item,index) => <Form1_2 item={item} data={data} key={index}/>)}
         <div className='w-full flex items-center justify-between font-Roboto p-4 shadow-sm mt-4'>
             <div className='w-full flex items-center justify-start gap-x-4'>
                 <label className='font-[700]' id='certification'>Certification:</label>
@@ -30,7 +30,7 @@ function Preview() {
 
         </div>
     </div>
-        <div className='flex mt-2 justify-between '>
+        <div className='flex mt-8 justify-between '>
             <button
                 className=" bg-main text-white px-4 py-2 rounded-xl cursor-pointer font-Roboto  font-[600] transition-all duration-150 
              hover:bg-button disabled:bg-gray-400 disabled:cursor-not-allowed"
