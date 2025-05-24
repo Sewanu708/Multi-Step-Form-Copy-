@@ -47,7 +47,7 @@ const Location = () => {
   }
 
   return (
-    <div>
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 1 }} transition={{ duration: 0.3 }}>
       <form onSubmit={formik.handleSubmit}>
         <CommonInput details={form_one} formik={formik} handleChange={handleInputChange} />
         <Card1 data={Locations} formik={formik} comma={comma} setComma={setComma} />
@@ -73,8 +73,7 @@ const Location = () => {
           </button>
         </div>
       </form>
-    </div>
-
+    </motion.div>
   )
 }
 

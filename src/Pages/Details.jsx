@@ -6,7 +6,7 @@ import Form1_2 from '../components/Form/Form1_2';
 import { myContext } from '../context';
 import { useNavigate } from 'react-router';
 import { useFormik } from 'formik';
-
+import { motion } from 'framer-motion';
 const validate = (values) => {
   const errors = {};
   if (!values.name || values.name.trim() === '') {
@@ -60,99 +60,99 @@ const Details = () => {
   }, []);
 
   return (
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 1 }} transition={{ duration: 0.3 }}>
+      <form onSubmit={formik.handleSubmit}>
+        <Form1_2 item={form_one} data={data} />
+        <Form1_2 item={form_two} data={data} />
 
-    <form onSubmit={formik.handleSubmit}>
-      <Form1_2 item={form_one} data={data} />
-      <Form1_2 item={form_two} data={data} />
+        {form_three.map((item, index) => (
+          <div key={index}>
+            <div className='w-full flex items-center justify-between font-Roboto p-4 shadow-sm mt-4'>
+              <div className='w-full flex items-center justify-start gap-x-4'>
+                <label className='font-[700]' htmlFor={item.id}>
+                  {item.header}:
+                </label>
+                <input
+                  type={item.type}
+                  id={item.id}
+                  name={item.name}
+                  placeholder={item.placeholder}
+                  value={formik.values[item.name]}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  className='placeholder:text-[14px] w-full border-none outline-0'
+                />
+              </div>
+            </div>
+            {formik.touched[item.name] && formik.errors[item.name] && (
+              <div className='text-start mt-2 mb-4 text-red-500'>
+                {formik.errors[item.name]}
+              </div>
+            )}
+          </div>
+        ))}
 
-      {form_three.map((item, index) => (
-        <div key={index}>
-          <div className='w-full flex items-center justify-between font-Roboto p-4 shadow-sm mt-4'>
-            <div className='w-full flex items-center justify-start gap-x-4'>
-              <label className='font-[700]' htmlFor={item.id}>
-                {item.header}:
-              </label>
-              <input
-                type={item.type}
-                id={item.id}
-                name={item.name}
-                placeholder={item.placeholder}
-                value={formik.values[item.name]}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                className='placeholder:text-[14px] w-full border-none outline-0'
-              />
+        <div className='mt-4 w-full flex flex-col items-start justify-start'>
+          <label htmlFor='certification' className='block font-[700] font-Roboto'>
+            Certification{' '}
+            <span className='font-[500] font-Roboto text-primary text-[14px]'>
+              (optional)
+            </span>
+          </label>
+          <div className='w-full cursor-pointer border border-dashed h-[250px] flex items-center justify-center mt-2' ref={fileInputLabelRef}>
+            <input
+              type='file'
+              name='certification'
+              id='certification'
+              ref={fileInputRef}
+              className='hidden'
+              onChange={(e) => {
+                setFileInput(e.target.files[0].name);
+                formik.setFieldValue('certification', e.target.files[0].name);
+              }}
+            />
+            <div
+              className='cursor-pointer flex flex-col font-Roboto justify-center items-center gap-y-4'
+
+            >
+              <FaFile color='#7B287D' size={100} />
+              <div className='text-center'>
+                {fileInput.length > 0 || formik.values.certification ? (
+                  fileInput || formik.values.certification
+                ) : (
+                  <div className='inline'>
+                    <span className='font-bold underline'>Click to upload</span>
+                    <span> or drag and drop</span>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
-          {formik.touched[item.name] && formik.errors[item.name] && (
-            <div className='text-start mt-2 mb-4 text-red-500'>
-              {formik.errors[item.name]}
-            </div>
-          )}
         </div>
-      ))}
 
-      <div className='mt-4 w-full flex flex-col items-start justify-start'>
-        <label htmlFor='certification' className='block font-[700] font-Roboto'>
-          Certification{' '}
-          <span className='font-[500] font-Roboto text-primary text-[14px]'>
-            (optional)
-          </span>
-        </label>
-        <div className='w-full cursor-pointer border border-dashed h-[250px] flex items-center justify-center mt-2' ref={fileInputLabelRef}>
-          <input
-            type='file'
-            name='certification'
-            id='certification'
-            ref={fileInputRef}
-            className='hidden'
-            onChange={(e) => {
-              setFileInput(e.target.files[0].name);
-              formik.setFieldValue('certification', e.target.files[0].name);
-            }}
-          />
-          <div
-            className='cursor-pointer flex flex-col font-Roboto justify-center items-center gap-y-4'
-            
+        <div className='flex mt-8 justify-between '>
+          <button
+            type='button'
+            onClick={() => navigate(-1)}
+            className='bg-main text-white px-4 py-2 rounded-xl cursor-pointer font-Roboto font-[600] transition-all duration-150 hover:bg-button disabled:bg-gray-400 disabled:cursor-not-allowed'
           >
-            <FaFile color='#7B287D' size={100} />
-            <div>
-              {fileInput.length > 0 || formik.values.certification ? (
-                fileInput||formik.values.certification 
-              ) : (
-                <div className='inline'>
-                  <span className='font-bold underline'>Click to upload</span>
-                  <span> or drag and drop</span>
-                </div>
-              )}
-            </div>
-          </div>
+            Prev
+          </button>
+          <button
+            type='submit'
+            className='bg-main text-white px-4 py-2 rounded-xl cursor-pointer font-Roboto font-[600] transition-all duration-150 hover:bg-button disabled:bg-gray-400 disabled:cursor-not-allowed'
+            disabled={
+              !!formik.errors.name ||
+              !!formik.errors.phone ||
+              !formik.values.name.trim() ||
+              !formik.values.phone.trim()
+            }
+          >
+            Submit
+          </button>
         </div>
-      </div>
-
-      <div className='flex mt-8 justify-between '>
-        <button
-          type='button'
-          onClick={() => navigate(-1)}
-          className='bg-main text-white px-4 py-2 rounded-xl cursor-pointer font-Roboto font-[600] transition-all duration-150 hover:bg-button disabled:bg-gray-400 disabled:cursor-not-allowed'
-        >
-          Prev
-        </button>
-        <button
-          type='submit'
-          className='bg-main text-white px-4 py-2 rounded-xl cursor-pointer font-Roboto font-[600] transition-all duration-150 hover:bg-button disabled:bg-gray-400 disabled:cursor-not-allowed'
-          disabled={
-            !!formik.errors.name ||
-            !!formik.errors.phone ||
-            !formik.values.name.trim() ||
-            !formik.values.phone.trim()
-          }
-        >
-          Submit
-        </button>
-      </div>
-    </form>
-
+      </form>
+    </motion.div>
 
   );
 };

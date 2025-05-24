@@ -46,30 +46,31 @@ const Position = () => {
     formik.handleChange(e)
   }
   return (
-    <form onSubmit={formik.handleSubmit}>
-      <CommonInput details={form_two} formik={formik} handleChange={handleInputChange} />
-      <Card2 data={Positions} formik={formik} />
-      <div className='flex mt-8 justify-between '>
-        <button
-          className=" bg-main text-white px-4 py-2 rounded-xl cursor-pointer font-Roboto  font-[600] transition-all duration-150 
+    <motion.div initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:1}} transition={{duration:0.3}}>
+      <form onSubmit={formik.handleSubmit}>
+        <CommonInput details={form_two} formik={formik} handleChange={handleInputChange} />
+        <Card2 data={Positions} formik={formik} />
+        <div className='flex mt-8 justify-between '>
+          <button
+            className=" bg-main text-white px-4 py-2 rounded-xl cursor-pointer font-Roboto  font-[600] transition-all duration-150 
              hover:bg-button disabled:bg-gray-400 disabled:cursor-not-allowed"
 
-          type="button"
-          onClick={() => { Navigate(-1) }}
-        >
-          Prev
-        </button>
-        <button
-          className=" bg-main text-white px-4 py-2 rounded-xl cursor-pointer font-Roboto font-[600] transition-all duration-150 
+            type="button"
+            onClick={() => { Navigate(-1) }}
+          >
+            Prev
+          </button>
+          <button
+            className=" bg-main text-white px-4 py-2 rounded-xl cursor-pointer font-Roboto font-[600] transition-all duration-150 
              hover:bg-button disabled:bg-gray-400 disabled:cursor-not-allowed"
-          disabled={!!formik.errors.position || !formik.values.position.trim()}
-          type="submit"
-        >
-          Next
-        </button>
-      </div>
-    </form>
-
+            disabled={!!formik.errors.position || !formik.values.position.trim()}
+            type="submit"
+          >
+            Next
+          </button>
+        </div>
+      </form>
+    </motion.div>
   )
 }
 
