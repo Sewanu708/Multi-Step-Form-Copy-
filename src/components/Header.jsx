@@ -8,7 +8,6 @@ const Header = () => {
     const Location = useLocation()
     const helperFunction = (pathname, completed, number) => {
         const isCurrent = Location.pathname === pathname;
-
         if (isCurrent) {
             return {
                 label: 'text-main',

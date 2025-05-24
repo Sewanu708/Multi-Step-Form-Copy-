@@ -9,7 +9,7 @@ import { myContext } from '../context';
 import { motion } from 'framer-motion';
 const validate = (values) => {
   const errors = {};
-  if (!values.location || !/^[a-zA-Z\s]+\s*,\s*[a-zA-Z\s]+$/.test(values.location)) {
+  if (!values.location || !/^[\p{L}\s\-'’\.]+\s*,\s*[\p{L}\s\-'’\.]+$/u.test(values.location)) {
     errors.location = 'Please add your area in the format "city, area"';
   }
 
