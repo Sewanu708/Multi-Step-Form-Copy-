@@ -30,7 +30,7 @@ function Preview() {
 
         </div>
     </div>
-        <div className='flex mt-8 justify-between '>
+        <div className='flex mt-2 justify-between '>
             <button
                 className=" bg-main text-white px-4 py-2 rounded-xl cursor-pointer font-Roboto  font-[600] transition-all duration-150 
              hover:bg-button disabled:bg-gray-400 disabled:cursor-not-allowed"
